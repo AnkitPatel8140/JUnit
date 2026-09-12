@@ -1,10 +1,27 @@
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FirstTest {
 
-    First f = new First();
+    @BeforeAll
+    static void beforeAll() {
+        System.out.println("beforeAll");
+    }
+
+    @AfterAll
+    static void afterAll() {
+        System.out.println("afterAll");
+    }
+
+    First f;
+    @BeforeEach
+    void init() {
+        f = new First();
+        System.out.println("initializing...");
+    }
+
 
     @Test
     void add() {
@@ -23,6 +40,11 @@ class FirstTest {
 //        only be evaluated if test case failed and in normal string it will be evaluated regardless of
 //        the result
         assertEquals( f.add(2, 3), 6, () -> "Test case failed for supplier");
+    }
+
+    @AfterEach
+    void destroy() {
+        System.out.println("destroying...");
     }
 
 
